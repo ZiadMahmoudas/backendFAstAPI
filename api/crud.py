@@ -9,8 +9,8 @@ async def create_hero(db: AsyncSession, hero: schemas.HeroCreate):
     await db.refresh(db_hero)
     return db_hero
 
-async def get_heroes(db: AsyncSession, skip: int = 0, limit: int = 100):
-    result = await db.execute(select(models.Hero).offset(skip).limit(limit))
+async def get_heroes(db: AsyncSession):
+    result = await db.execute(select(models.Hero))
     return result.scalars().all()
 
 async def get_hero(db: AsyncSession, hero_id: int):
