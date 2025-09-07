@@ -1,14 +1,38 @@
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker, declarative_base
+from contextlib import asynccontextmanager
 
+# لو SQLite للتجارب
 # DATABASE_URL = "sqlite+aiosqlite:///./test.db"
-DATABASE_URL = "postgresql://postgres:0123456789Ziad@db.wqvtwctdjevzldwpderu.supabase.co:5432/postgres"
 
-engine = create_engine(DATABASE_URL)
-SessionLocal = sessionmaker(bind=engine)
+# PostgreSQL
+DATABASE_URL = "postgresql+asyncpg://postgres:0123456789Ziad@db.wqvtwctdjevzldwpderu.supabase.co:5432/postgres"
 
+# انشاء الـ async engine
+engine = create_async_engine(DATABASE_URL, echo=True, future=True)
+
+# Session maker
+AsyncSessionLocal = sessionmaker(
+    bind=engine,
+    class_=AsyncSession,
+    expire_on_commit=False,
+    autoflush=False,
+    autocommit=False
+)
+
+# Base للـ models
 Base = declarative_base()
 
-# async def get_db():
-#     async with AsyncSessionLocal() as session:
-#         yield session
+# Context manager لكل request
+@asynccontextmanager
+async def get_db():
+    async with AsyncSessionLocal() as session:
+        try:
+            yield session
+        finally:
+            await session.close()
+
+# دالة init models لو حبيت تعمل create_all
+async def init_models():
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
