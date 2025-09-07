@@ -12,15 +12,12 @@ from cryptography import x509
 from cryptography.x509.oid import NameOID
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
-
+from mangum import Mangum
 
 app = FastAPI(title="Heroes API (Async)", version="6.0")
 app.include_router(heroes.router)
 
-origins = [
-    "http://localhost:4200",
-    "https://localhost:4200"
-]
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -38,7 +35,7 @@ async def init_models():
 async def on_startup():
     await init_models()
 
-
+handler = Mangum(app) 
 def generate_ssl_cert():
     cert_dir = "ssl"
     os.makedirs(cert_dir, exist_ok=True)
