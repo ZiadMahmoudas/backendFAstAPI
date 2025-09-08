@@ -35,49 +35,49 @@ async def on_startup():
     await init_models()
 
 handler = Mangum(app) 
-def generate_ssl_cert():
-    cert_dir = "ssl"
-    os.makedirs(cert_dir, exist_ok=True)
+# def generate_ssl_cert():
+#     cert_dir = "ssl"
+#     os.makedirs(cert_dir, exist_ok=True)
 
-    key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
-    subject = issuer = x509.Name([x509.NameAttribute(NameOID.COMMON_NAME, u"localhost")])
+#     key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
+#     subject = issuer = x509.Name([x509.NameAttribute(NameOID.COMMON_NAME, u"localhost")])
 
-    cert = (
-        x509.CertificateBuilder()
-        .subject_name(subject)
-        .issuer_name(issuer)
-        .public_key(key.public_key())
-        .serial_number(x509.random_serial_number())
-        .not_valid_before(datetime.datetime.utcnow())
-        .not_valid_after(datetime.datetime.utcnow() + datetime.timedelta(days=365))
-        .sign(key, hashes.SHA256())
-    )
+#     cert = (
+#         x509.CertificateBuilder()
+#         .subject_name(subject)
+#         .issuer_name(issuer)
+#         .public_key(key.public_key())
+#         .serial_number(x509.random_serial_number())
+#         .not_valid_before(datetime.datetime.utcnow())
+#         .not_valid_after(datetime.datetime.utcnow() + datetime.timedelta(days=365))
+#         .sign(key, hashes.SHA256())
+#     )
 
-    keyfile = os.path.join(cert_dir, "server.key")
-    certfile = os.path.join(cert_dir, "server.crt")
+#     keyfile = os.path.join(cert_dir, "server.key")
+#     certfile = os.path.join(cert_dir, "server.crt")
 
-    with open(keyfile, "wb") as f:
-        f.write(
-            key.private_bytes(
-                encoding=serialization.Encoding.PEM,
-                format=serialization.PrivateFormat.TraditionalOpenSSL,
-                encryption_algorithm=serialization.NoEncryption(),
-            )
-        )
+#     with open(keyfile, "wb") as f:
+#         f.write(
+#             key.private_bytes(
+#                 encoding=serialization.Encoding.PEM,
+#                 format=serialization.PrivateFormat.TraditionalOpenSSL,
+#                 encryption_algorithm=serialization.NoEncryption(),
+#             )
+#         )
 
-    with open(certfile, "wb") as f:
-        f.write(cert.public_bytes(serialization.Encoding.PEM))
+#     with open(certfile, "wb") as f:
+#         f.write(cert.public_bytes(serialization.Encoding.PEM))
 
-    return keyfile, certfile
+#     return keyfile, certfile
 
 
-if __name__ == "__main__":
-    keyfile, certfile = generate_ssl_cert()
-    uvicorn.run(
-        "main:app",
-        host="localhost",
-        port=8000,
-        ssl_keyfile=keyfile,
-        ssl_certfile=certfile,
-        reload=True,
-    )
+# if __name__ == "__main__":
+#     keyfile, certfile = generate_ssl_cert()
+#     uvicorn.run(
+#         "main:app",
+#         host="localhost",
+#         port=8000,
+#         ssl_keyfile=keyfile,
+#         ssl_certfile=certfile,
+#         reload=True,
+#     )
