@@ -6,7 +6,7 @@ from contextlib import asynccontextmanager
 # DATABASE_URL = "sqlite+aiosqlite:///./test.db"
 
 # PostgreSQL
-DATABASE_URL = "postgresql+asyncpg://postgres:0123456789Ziad@db.wqvtwctdjevzldwpderu.supabase.co:5432/postgres"
+DATABASE_URL = "postgresql+asyncpg://postgres:0123456789Ziad@aws-1-eu-north-1.pooler.supabase.com:6543/postgres?sslmode=require"
 
 # انشاء الـ async engine
 engine = create_async_engine(DATABASE_URL, echo=True, future=True)
