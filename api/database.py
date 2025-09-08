@@ -1,11 +1,13 @@
 import ssl
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker, declarative_base
+import os
 
-# الـ URL من غير ?sslmode=require
-DATABASE_URL = (
+# ناخد من Environment Variable، ولو مش موجود نستخدم الـ default (للتجربة فقط)
+DATABASE_URL = os.getenv(
+    "DATABASE_URL",
     "postgresql+asyncpg://postgres.wqvtwctdjevzldwpderu:0123456789Ziad"
-    "@aws-1-eu-north-1.pooler.supabase.com:6543/postgres"
+    "@aws-1-eu-north-1.pooler.supabase.com:6543/postgres?sslmode=require"
 )
 
 # نجهز الـ SSL context
@@ -26,7 +28,7 @@ AsyncSessionLocal = sessionmaker(
 
 Base = declarative_base()
 
-# @asynccontextmanager
+# Dependency للـ DB
 async def get_db():
     async with AsyncSessionLocal() as session:
         try:
