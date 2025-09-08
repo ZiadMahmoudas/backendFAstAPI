@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 import schemas, crud
-from database import get_db
+from api.database import get_db
 
 router = APIRouter(
     prefix="/heroes",
