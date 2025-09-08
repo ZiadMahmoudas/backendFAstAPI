@@ -27,7 +27,7 @@ AsyncSessionLocal = sessionmaker(
 
 Base = declarative_base()
 
-@asynccontextmanager
+# @asynccontextmanager
 async def get_db():
     async with AsyncSessionLocal() as session:
         try:
