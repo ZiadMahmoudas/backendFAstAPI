@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from mangum import Mangum
 from api.database import engine, Base
-from routers import heroes
+from api.routers import heroes
 
 app = FastAPI(title="Heroes API (Async)", version="6.0")
 app.include_router(heroes.router)
