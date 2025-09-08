@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from mangum import Mangum
 from api.database import engine, Base
 from api.routers import heroes
 
@@ -15,6 +16,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# إنشاء الـ Tables عند startup
 async def init_models():
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
@@ -22,3 +24,6 @@ async def init_models():
 @app.on_event("startup")
 async def on_startup():
     await init_models()
+
+# للـ Vercel/AWS
+handler = Mangum(app)
