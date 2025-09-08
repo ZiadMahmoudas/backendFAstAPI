@@ -1,6 +1,8 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-import models, schemas
+import api.models as models
+import api.schemas as schemas
+
 
 async def create_hero(db: AsyncSession, hero: schemas.HeroCreate):
     db_hero = models.Hero(name=hero.name, power=hero.power)

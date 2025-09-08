@@ -1,7 +1,6 @@
 import ssl
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker, declarative_base
-from contextlib import asynccontextmanager
 
 # الـ URL من غير ?sslmode=require
 DATABASE_URL = (
