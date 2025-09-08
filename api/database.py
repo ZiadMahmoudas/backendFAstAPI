@@ -11,15 +11,15 @@ DATABASE_URL = os.getenv(
 )
 
 # نجهز الـ SSL context
-ssl_context = ssl.create_default_context()
-ssl_context.check_hostname = False
+# ssl_context = ssl.create_default_context()
+# ssl_context.check_hostname = False
 # ssl_context.verify_mode = ssl.CERT_NONE  # للتجربة فقط
 
 engine = create_async_engine(
     DATABASE_URL,
     echo=True,
     future=True,
-    connect_args={"ssl": ssl_context, "statement_cache_size": 0}
+    # connect_args={"ssl": ssl_context, "statement_cache_size": 0}
 )
 
 AsyncSessionLocal = sessionmaker(
