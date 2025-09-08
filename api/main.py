@@ -17,11 +17,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.on_event("startup")
-async def on_startup():
-    print("Initializing database models...")
-    try:
-        await init_models()
-        print("Database initialized successfully.")
-    except Exception as e:
-        print("Error initializing database:", e)
+# @app.on_event("startup")
+# async def on_startup():
+#     print("Initializing database models...")
+#     try:
+#         await init_models()
+#         print("Database initialized successfully.")
+#     except Exception as e:
+#         print("Error initializing database:", e)
