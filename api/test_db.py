@@ -6,10 +6,10 @@ try:
         user="postgres.wqvtwctdjevzldwpderu",
         password="0123456789Ziad",
         host="aws-1-eu-north-1.pooler.supabase.com",
-        port=6543,
+        port=6543,  # خليها نفس اللي في Supabase
         sslmode="require"
     )
-    print("Connected!")
+    print("✅ Connected successfully!")
     conn.close()
 except Exception as e:
-    print("Error:", e)
+    print("❌ Connection error:", e)
