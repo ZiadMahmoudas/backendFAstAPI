@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from mangum import Mangum
 from api.database import engine, Base
 from api.routers import heroes
 
@@ -24,6 +23,3 @@ async def init_models():
 @app.on_event("startup")
 async def on_startup():
     await init_models()
-
-# للـ Vercel/AWS
-handler = Mangum(app)
