@@ -1,22 +1,20 @@
-# api/database.py
-
-import os
+import ssl
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker, declarative_base
+import os
 
-# 🔴 تأكد من أن هذا الرابط صحيح تمامًا
+# ناخد من Environment Variable، ولو مش موجود نستخدم الـ default (للتجربة فقط)
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
+    "postgresql+asyncpg://postgres.wqvtwctdjevzldwpderu:0123456789Ziad"
+    "@aws-1-eu-north-1.pooler.supabase.com:6543/postgres?sslmode=require"
 )
 
-# 🔴 هذا هو الحل لمشكلة sslmode
+
 engine = create_async_engine(
     DATABASE_URL,
     echo=True,
     future=True,
-    connect_args={
-        "ssl": "require"
-    }
 )
 
 AsyncSessionLocal = sessionmaker(
