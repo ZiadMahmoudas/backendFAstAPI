@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker, declarative_base
 import os
 
-DATABASE_URL='postgresql://postgres.wqvtwctdjevzldwpderu:0123456789Ziad@aws-1-eu-north-1.pooler.supabase.com:6543/postgres'
+DATABASE_URL='postgresql+asyncpg://postgres.wqvtwctdjevzldwpderu:0123456789Ziad@aws-1-eu-north-1.pooler.supabase.com:6543/postgres'
 
 print("DATABASE_URL:", DATABASE_URL) 
 # إعداد SSL
