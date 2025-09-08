@@ -24,3 +24,5 @@ app.add_middleware(
 # @app.on_event("startup")
 # async def on_startup():
 #     await init_models()
+
+handler = Mangum(app)
