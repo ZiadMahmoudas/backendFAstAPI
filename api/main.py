@@ -25,3 +25,5 @@ app.add_middleware(
 #         print("Database initialized successfully.")
 #     except Exception as e:
 #         print("Error initializing database:", e)
+
+handler = Mangum(app)
