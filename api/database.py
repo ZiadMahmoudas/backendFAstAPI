@@ -1,17 +1,20 @@
 import os
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker, declarative_base
+import ssl
 
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
     "postgresql+asyncpg://postgres:0123456789Ziad@aws-1-eu-north-1.pooler.supabase.com:6543/postgres"
 )
-
+ssl_context = ssl.create_default_context()
+ssl_context.check_hostname = False
+ssl_context.verify_mode = ssl.CERT_NONE
 engine = create_async_engine(
     DATABASE_URL,
     echo=True,
     future=True,
-    connect_args={"ssl": {"sslmode": "require"}}  # مهم على Vercel
+    connect_args={"ssl": ssl_context}
 )
 
 AsyncSessionLocal = sessionmaker(
