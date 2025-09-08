@@ -1,25 +1,25 @@
-import psycopg2
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
 import os
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
+from sqlalchemy.orm import sessionmaker, declarative_base
 
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
-    "postgresql+psycopg2://postgres.wqvtwctdjevzldwpderu:0123456789Ziad@aws-1-eu-north-1.pooler.supabase.com:6543/postgres"
+    "postgresql+asyncpg://postgres.wqvtwctdjevzldwpderu:0123456789Ziad"
+    "@aws-1-eu-north-1.pooler.supabase.com:6543/postgres"
 )
 
-# Create synchronous SQLAlchemy engine
-engine = create_engine(
+# Create asynchronous SQLAlchemy engine
+engine = create_async_engine(
     DATABASE_URL,
     echo=True,
-    future=True  # optional, for SQLAlchemy 2.0 style
+    future=True
 )
 
-# Create session factory
-SessionLocal = sessionmaker(
+# Create async session factory
+AsyncSessionLocal = sessionmaker(
     bind=engine,
-    autocommit=False,
-    autoflush=False
+    class_=AsyncSession,
+    expire_on_commit=False
 )
 
 # Base for models
@@ -28,15 +28,13 @@ Base = declarative_base()
 # ========================
 # Helper functions
 # ========================
-def get_db():
-    """Synchronous DB session generator"""
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+async def get_db():
+    """Async DB session generator"""
+    async with AsyncSessionLocal() as session:
+        yield session
 
-def init_models():
-    """Create tables"""
-    Base.metadata.create_all(bind=engine)
+async def init_models():
+    """Create tables asynchronously"""
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
     print("✅ Database tables initialized successfully!")
