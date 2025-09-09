@@ -11,7 +11,7 @@ app.include_router(heroes.router)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["https://localhost:4200","https://backend-f-ast-api.vercel.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -27,9 +27,6 @@ async def startup():
         logging.error(f"Error during startup: {e}")
 
 
-# if __name__ == "__main__":
-#     import uvicorn
-#     uvicorn.run("api.main:app", host="127.0.0.1", port=8000, reload=True)
 
 @app.get("/")
 def read_root():
