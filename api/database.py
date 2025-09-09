@@ -2,8 +2,8 @@ from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker, declarative_base
 from sqlalchemy import Column, Integer, String
 import os
-DATABASE_URL = "mysql+aiomysql://sql8797878:9NFsqGi8Ib@sql8.freesqldatabase.com:3306/sql8797878"
-# DATABASE_URL = os.getenv("DATABASE_URL", 'postgresql+asyncpg://postgres.wqvtwctdjevzldwpderu:0123456789Ziad@aws-1-eu-north-1.pooler.supabase.com:6543/postgres')
+# DATABASE_URL = "mysql+aiomysql://sql8797878:9NFsqGi8Ib@sql8.freesqldatabase.com:3306/sql8797878"
+DATABASE_URL = os.getenv("DATABASE_URL", 'postgresql+asyncpg://postgres.wqvtwctdjevzldwpderu:0123456789Ziad@aws-1-eu-north-1.pooler.supabase.com:6543/postgres')
 # print(f"Using DATABASE_URL: {DATABASE_URL}")
 
 # DATABASE_URL = ""
