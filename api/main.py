@@ -1,9 +1,7 @@
-# api/main.py
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from api.database import init_models
 from api.routers import heroes
-from mangum import Mangum
+from api.database import init_models
 
 app = FastAPI(title="Heroes API (Async)", version="6.0")
 
@@ -17,13 +15,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# @app.on_event("startup")
-# async def on_startup():
-#     print("Initializing database models...")
-#     try:
-#         await init_models()
-#         print("Database initialized successfully.")
-#     except Exception as e:
-#         print("Error initializing database:", e)
+# دالة لتبدأ تشغيل الجداول عند بدء التطبيق
+@app.on_event("startup")
+async def startup():
+    print("Initializing the database tables...")
+    await init_models()  # تهيئة الجداول عند بدء التطبيق
 
-# handler = Mangum(app)
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("api.main:app", host="127.0.0.1", port=8000, reload=True)
+
+@app.get("/")
+def read_root():
+    return {"message": "Hello World"}

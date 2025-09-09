@@ -11,4 +11,4 @@ class HeroCreate(HeroBase):
 class Hero(HeroBase):
     id: int
     class Config:
-        from_attributes = True
+         orm_mode = True

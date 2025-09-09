@@ -1,6 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-import api.models as models
+import api.database as models
 import api.schemas as schemas
 
 
