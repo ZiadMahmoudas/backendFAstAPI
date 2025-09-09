@@ -2,7 +2,6 @@ from logging.config import fileConfig
 from sqlalchemy import engine_from_config, pool
 from alembic import context
 from api.database import Base  # استيراد Base من database
-from api.models import Hero  # استيراد الجداول لتعريف target_metadata
 
 # هذا هو ملف إعدادات Alembic الذي يتيح الوصول إلى القيم من ملف ini
 config = context.config
