@@ -31,8 +31,33 @@ async def create_tables():
     await init_models()
     print("✅ تم إنشاء الجداول بنجاح!")
 
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from api.routers import heroes
+import logging
+logging.basicConfig(level=logging.DEBUG)
+
+app = FastAPI(title="Heroes API (Async)", version="6.0")
+
+app.include_router(heroes.router)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://localhost:4200", "https://shiny-gingersnap-ea19b6.netlify.app"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+@app.get("/")
+def read_root():
+    return {"message": "Hello World"}
+
+# هذا الكود مخصص فقط للتشغيل المحلي
+# Vercel يستخدمه بشكل تلقائي لتشغيل التطبيق
 if __name__ == "__main__":
-    asyncio.run(create_tables())
+    import uvicorn
+    uvicorn.run("api.main:app", host="127.0.0.1", port=8000, reload=True)
 
 
 @app.get("/")
