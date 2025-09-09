@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from api.routers import heroes
 from api.database import init_models
+import logging
+logging.basicConfig(level=logging.DEBUG)
 
 app = FastAPI(title="Heroes API (Async)", version="6.0")
 
@@ -16,10 +18,14 @@ app.add_middleware(
 )
 
 # دالة لتبدأ تشغيل الجداول عند بدء التطبيق
-# @app.on_event("startup")
-# async def startup():
-#     print("Initializing the database tables...")
-#     await init_models()  # تهيئة الجداول عند بدء التطبيق
+@app.on_event("startup")
+async def startup():
+    try:
+        logging.debug("Initializing the database tables...")
+        await init_models()  # تهيئة الجداول عند بدء التطبيق
+    except Exception as e:
+        logging.error(f"Error during startup: {e}")
+
 
 # if __name__ == "__main__":
 #     import uvicorn
