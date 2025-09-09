@@ -11,8 +11,7 @@ app.include_router(heroes.router)
 
 app.add_middleware(
     CORSMiddleware,
-    # allow_origins=["https://localhost:4200","https://shiny-gingersnap-ea19b6.netlify.app"],
-    allow_origins=["*"], 
+    allow_origins=["https://localhost:4200","https://shiny-gingersnap-ea19b6.netlify.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
